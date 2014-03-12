@@ -1,0 +1,230 @@
+@teamHeight: 16px;
+@border: 1px solid black;
+
+body {
+  font-size: 12px;
+  font-family: "Lato", Helvetica, Arial, Verdana, sans-serif;
+  background-color: #e0e0e0;
+  margin: 0;
+  padding: 0;
+  color: #000;
+}
+
+div.clear {
+  clear: both;
+}
+
+body > div.round {
+  display: none;
+}
+
+div.bracket {
+  padding: 0 @teamHeight;
+}
+
+  /* Not ideal for long team names - could programatically adjust font size in JS? */
+  div.team {
+    border-bottom: @border;
+    height: @teamHeight;
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 0 @teamHeight/6;
+  }
+
+  /* Finals in mobile */
+  div.bracket > div.round {
+    display: none;
+  }
+
+  /* Split into Region 1+2, Region 3+4 */
+  div.half {
+    width: 50%;
+    float: left;
+  }
+
+    /* The two final four games */
+    div.half > div.round {
+      width: percentage(1/6);
+    }
+
+    /* Each region is 5/6 of the half, because the final four round needs 1/6 */
+    div.region {
+      clear: both;      
+      width: percentage(5/6);
+    }
+
+    /* Add some margin for the bottom two regions */
+    div.half {
+      padding-top: @teamHeight;
+    }
+
+    /* Within a region, there are five rounds */
+    div.region div.round {
+      width: 20%;
+    }
+
+
+    /* Rounds in the first half should float left, align left, and the bottom of each pair should have border-right */
+    div.half:first-of-type {
+      text-align: left;
+    }
+
+    div.half:first-of-type div.round, div.half:first-of-type div.region {
+      float: left;
+    }
+
+    div.half:first-of-type div.round div.team:nth-of-type(even), div.half:last-of-type > div.round {
+      border-right: @border;
+    }
+
+    div.half:last-of-type {
+      text-align: right;
+    }
+
+    div.half:last-of-type div.round, div.half:last-of-type div.region {
+      float: right;
+    }
+
+    div.half:last-of-type div.round div.team:nth-of-type(even), div.half:first-of-type > div.round {
+      border-left: @border;
+    }
+
+    div.half div.region:nth-of-type(even) {
+      margin-top: @teamHeight;
+    }
+
+    /* First round:
+      top team has no special margin
+      bottom team has an extra 2x padding
+    */
+    div.region div.round:nth-of-type(1) div.team:nth-of-type(odd) {
+      margin-top: @teamHeight;
+    }
+
+
+    div.region div.round:nth-of-type(1) div.team:nth-of-type(even) {
+      padding-top: @teamHeight;
+    }
+
+    div.region div.round:nth-of-type(1) div.team:first-of-type {
+      margin-top: 0;
+    }
+
+    /* Second round */
+    div.region div.round:nth-of-type(2) div.team:nth-of-type(odd) {
+      margin-top: (@teamHeight*3)+1;
+    }
+
+    div.region div.round:nth-of-type(2) div.team:nth-of-type(even) {
+      padding-top: (@teamHeight*3)+1;
+    }
+
+    div.region div.round:nth-of-type(2) div.team:first-of-type {
+      margin-top: @teamHeight;
+    }
+
+    /* Third round */
+    div.region div.round:nth-of-type(3) div.team:nth-of-type(odd) {
+      margin-top: (@teamHeight*7)+2;
+    }
+
+    div.region div.round:nth-of-type(3) div.team:nth-of-type(even) {
+      padding-top: (@teamHeight*7)+2;
+    }
+
+    div.region div.round:nth-of-type(3) div.team:first-of-type {
+      margin-top: (@teamHeight*3)+1;
+    }
+
+    /* Fourth round */
+    div.region div.round:nth-of-type(4) div.team:nth-of-type(odd) {
+      margin-top: (@teamHeight*15)+3;
+    }
+
+    div.region div.round:nth-of-type(4) div.team:nth-of-type(even) {
+      padding-top: (@teamHeight*15)+3;      
+    }
+
+    div.region div.round:nth-of-type(4) div.team:first-of-type {
+      margin-top: (@teamHeight*7)+2;
+    }
+
+    /* Fifth round */
+    div.region div.round:nth-of-type(5) div.team {
+      margin-top: (@teamHeight*15)+3;
+    }
+
+    /* Sixth round */
+     div.half > div.round {
+      box-sizing: border-box;
+      position: relative;
+      padding-top: (@teamHeight*15)+4;
+      padding-bottom: (@teamHeight*16.5)+4;
+      bottom: (@teamHeight*15.5)+5;
+     }
+
+     div.half > div.round div.team {
+      padding-left: @teamHeight/6;
+      padding-right: @teamHeight/6;
+      border-bottom: @border;
+     }
+
+/* Don't float the halves, and convert the second half to be left-oriented */
+@media (max-width: 720px) {
+
+  body {
+    font-size: 11px;
+  }
+
+  div.half {
+    float: left;
+    clear: both;
+    width: percentage(6/7);
+  }
+
+  div.half:last-of-type {
+    text-align: left;
+  }
+
+  div.half:last-of-type div.region, div.half:last-of-type div.round {
+    float: left;
+  }
+
+  div.half:last-of-type div.round div.team:nth-of-type(even) {
+    border-left: none;
+    border-right: @border;
+  }
+
+  div.half:last-of-type > div.round {
+    border-right: none;
+    border-left: @border;
+  }
+
+  body > div.round {
+    position: absolute;
+    width: percentage(1/7);
+    display: block;
+    right: -1px; /* rounding error sometimes misaligns */
+    box-sizing: border-box;
+    top: (@teamHeight*17)+3 + (@teamHeight*16)+4;
+    padding-top: ((@teamHeight*32)+8);
+    padding-bottom: ((@teamHeight*32)+8);
+    border-left: @border;
+  }
+
+  div.bracket {
+    padding-right: 0;
+  }
+
+  body > div.round div.team {
+    border-bottom: @border;
+    margin-right: @teamHeight;
+  }
+
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 9px;
+  }
+}
