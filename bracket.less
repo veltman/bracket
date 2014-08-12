@@ -40,6 +40,8 @@ div.bracket {
   div.half {
     width: 50%;
     float: left;
+    position: relative;
+    padding-top: @teamHeight;
   }
 
     /* The two final four games */
@@ -51,11 +53,6 @@ div.bracket {
     div.region {
       clear: both;      
       width: percentage(5/6);
-    }
-
-    /* Add some margin for the bottom two regions */
-    div.half {
-      padding-top: @teamHeight;
     }
 
     /* Within a region, there are five rounds */
@@ -155,19 +152,28 @@ div.bracket {
     }
 
     /* Sixth round */
-     div.half > div.round {
+    div.half > div.round {
       box-sizing: border-box;
-      position: relative;
-      padding-top: (@teamHeight*15)+4;
-      padding-bottom: (@teamHeight*16.5)+4;
-      bottom: (@teamHeight*15.5)+5;
-     }
+      position: absolute;
+      margin-top: (@teamHeight*16)+3;
+      padding-top: (@teamHeight*15.5);
+      padding-bottom: (@teamHeight*16.5);
+    }
 
-     div.half > div.round div.team {
+    div.half > div.round div.team {
       padding-left: @teamHeight/6;
       padding-right: @teamHeight/6;
       border-bottom: @border;
-     }
+      background-color: red;
+    }
+
+    div.half:first-of-type > div.round {
+      right: 0;
+    }
+
+    div.half:last-of-type > div.round {
+      left: 0;
+    }
 
 /* Don't float the halves, and convert the second half to be left-oriented */
 @media (max-width: 720px) {
@@ -198,6 +204,8 @@ div.bracket {
   div.half:last-of-type > div.round {
     border-right: none;
     border-left: @border;
+    float: none;
+    right: 0;
   }
 
   body > div.round {
